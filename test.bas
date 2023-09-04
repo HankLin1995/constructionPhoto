@@ -1,4 +1,82 @@
 Attribute VB_Name = "test"
+Sub checkReportFormat()
+
+Dim coll As New Collection
+
+For Each rng In Sheets("Report").UsedRange
+
+    If rng.Value Like "<<*>>" Then
+    
+        tmp = Replace(rng.Value, "<<", "")
+        tmp = Replace(tmp, ">>", "")
+        
+        coll.Add tmp
+    
+    End If
+
+Next
+
+Dim coll_unique As New Collection
+
+For Each it In coll
+
+    s = split(it, "-")
+    
+    ky = s(0)
+    Set rng = Sheets("Result").Rows(1).Find(ky)
+    If rng Is Nothing And ky <> "照片" Then
+        Sheets("Report").Activate
+        MsgBox "【" & it & "】:對應不到Result的表頭名稱":
+        Set rng_focus = Sheets("Report").Cells.Find("<<" & it & ">>")
+        rng_focus.Select
+        End
+    End If
+    num = s(1)
+    
+    On Error Resume Next
+    
+    coll_unique.Add num, CStr(num)
+    
+    On Error GoTo 0
+
+Next
+
+Dim coll_count As New Collection
+
+For Each it_unique In coll_unique
+
+    cnt = 0
+
+    For Each it In coll
+    
+        s = split(it, "-")
+        
+        num = s(1)
+        
+        If num = it_unique Then
+        
+            cnt = cnt + 1
+        
+        End If
+    
+    Next
+    
+    coll_count.Add it_unique & "-" & cnt
+
+Next
+
+For i = 1 To coll_count.Count - 1
+
+    s_cnt = split(coll_count(i), "-")(1)
+    e_cnt = split(coll_count(i + 1), "-")(1)
+
+    If s_cnt <> e_cnt Then MsgBox "報表位置註記項目，不同編號應具有相同數量!" & vbNewLine & _
+    "請檢核第" & split(coll_count(i), "-")(0) & "次與第" & split(coll_count(i + 1), "-")(0) & "次!", vbCritical: End
+
+Next
+
+End Sub
+
 
 
 Sub extractNames()
@@ -124,6 +202,7 @@ End Sub
 Sub getPrintGroups()
 
 Call checkDateFormat
+Call checkReportFormat
 
 Dim f As New clsMyfunction
 Dim coll_rows_final As New Collection
@@ -233,6 +312,8 @@ KeepPrint:
         col = split(s, ",")(1)
     
         myAddress = getAddressByKeyWord(myKey, CStr(i))
+        
+'        If i = 4 Then Stop
     
         If myAddress <> "" Then
             
@@ -400,6 +481,8 @@ Set rng = .Cells.Find(find_text)
 
 If Not rng Is Nothing Then
 getAddressByKeyWord = rng.Address
+'Else
+'MsgBox "找不到Report中" & find_text & "儲存格位置!", vbCritical
 End If
 
 End With

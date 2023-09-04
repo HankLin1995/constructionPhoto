@@ -6,7 +6,7 @@ Attribute ¥¨¶°1.VB_ProcData.VB_Invoke_Func = " \n14"
 '
 
 '
-    Selection.ShapeRange(1).TextFrame2.TextRange.Characters.Text = "123"
+    Selection.ShapeRange(1).TextFrame2.TextRange.Characters.text = "123"
     Selection.ShapeRange(1).TextFrame2.TextRange.Characters(1, 3).ParagraphFormat. _
         FirstLineIndent = 0
     With Selection.ShapeRange(1).TextFrame2.TextRange.Characters(1, 3).Font

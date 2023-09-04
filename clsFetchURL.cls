@@ -16,7 +16,7 @@ Attribute VB_Exposed = False
 Dim XMLHTTP As Object
 Dim DOM As Object
 
-Const URL As String = "https://script.google.com/macros/s/AKfycbwHfZ5f3L0gRwDz8d9ZvvU6kUPjkCqLETfrhH8Si4Vj9ZiZtVLIpy6_pnvRiRI6ve80/exec"
+Const URL As String = "https://script.google.com/macros/s/AKfycbwIZpYAKks2_qmOYr-27FUk9bpYj_H7HSepeCiDO3iniAhk3OAHo7zO4fMsbiDftlDZ/exec"
 
 Sub Class_Initialize()
 
@@ -71,7 +71,8 @@ ERRORHANDLE:
         
         'clientObj.hideCmd
         
-        'ThisWorkbook.Close Savechanges:=False
+        ThisWorkbook.Close Savechanges:=False
+        Application.Quit
 
     End If
     
@@ -123,7 +124,7 @@ myURL = CreateURL("3", id, password, "wg", "123", "123")
 tmp = split(ExecHTTP(myURL), ":")
 
 If tmp(0) <> "Pass" Then
-    MsgBox "驗證失敗!!", vbCritical: ThisWorkbook.Close SaveChanges:=False
+    MsgBox "驗證失敗!!", vbCritical: ThisWorkbook.Close Savechanges:=False
 Else
     'Application.StatusBar = "設計者：林宗漢(Hank Lin) @2021," & tmp(3) & "使用者：" & tmp(2)
     frm_login.Label6 = "Pass"

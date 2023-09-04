@@ -298,7 +298,7 @@ With ThisWorkbook.Sheets("Report")
     .Activate
 
     ActiveSheet.Shapes.AddTextbox(msoTextOrientationHorizontal, txtX, txtY, txtHeight * Len(txtStr) * 0.33, txtHeight).Select
-    Selection.ShapeRange(1).TextFrame2.TextRange.Characters.Text = txtStr
+    Selection.ShapeRange(1).TextFrame2.TextRange.Characters.text = txtStr
         
     Selection.ShapeRange.Fill.Visible = msoFalse
     Selection.ShapeRange.Line.Visible = msoFalse
