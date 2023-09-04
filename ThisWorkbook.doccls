@@ -1,0 +1,30 @@
+VERSION 1.0 CLASS
+BEGIN
+  MultiUse = -1  'True
+END
+Attribute VB_Name = "ThisWorkbook"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = True
+Private Sub Workbook_Open()
+
+Inf.Show
+
+Call FetchURL_Main
+
+Sheets("Main").ComboBox1.AddItem "資料夾"
+Sheets("Main").ComboBox1.AddItem "日期"
+Sheets("Main").ComboBox1.AddItem "檢查項目"
+
+Sheets("Main").ComboBox1.Value = ""
+
+With Sheets("Main")
+
+lr = .Cells(.Rows.Count, 1).End(xlUp).Row
+
+If lr > 8 Then .Range("A9:B" & lr).Clear
+
+End With
+
+End Sub
