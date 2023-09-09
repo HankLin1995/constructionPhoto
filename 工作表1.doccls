@@ -9,6 +9,10 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = True
 Private Sub Worksheet_Activate()
 
+'msg = MsgBox("請問是否要重新整理篩選資料?", vbYesNo + vbInformation)
+
+'If msg = vbYes Then Call ApplyFilterToAllUsedCells
+
 Dim o As New clsInformation
 
 'If Sheets("Main").Range("B3") = "Y" Then ImageTmp.Show vbModeless

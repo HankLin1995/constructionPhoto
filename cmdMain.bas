@@ -49,6 +49,7 @@ objFile.PastePictures
 End With
 
 Call extractNames
+Call ApplyFilterToAllUsedCells
 
 End Sub
 

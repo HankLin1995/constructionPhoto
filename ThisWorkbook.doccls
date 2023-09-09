@@ -13,11 +13,11 @@ Inf.Show
 
 Call FetchURL_Main
 
-Sheets("Main").ComboBox1.AddItem "資料夾"
-Sheets("Main").ComboBox1.AddItem "日期"
-Sheets("Main").ComboBox1.AddItem "檢查項目"
+'Sheets("Main").ComboBox1.AddItem "資料夾"
+'Sheets("Main").ComboBox1.AddItem "日期"
+'Sheets("Main").ComboBox1.AddItem "檢查項目"
 
-Sheets("Main").ComboBox1.Value = ""
+'Sheets("Main").ComboBox1.Value = ""
 
 With Sheets("Main")
 
@@ -27,4 +27,7 @@ If lr > 8 Then .Range("A9:B" & lr).Clear
 
 End With
 
+MsgBox "授權已通過!", vbInformation
+
 End Sub
+

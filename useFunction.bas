@@ -14,6 +14,8 @@ For i = 1 To Len(s)
         getDate = getDate & ch
     
     End If
+    
+    If ch = "-" Then Exit Function
 
 Next
 

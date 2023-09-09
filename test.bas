@@ -207,6 +207,65 @@ Call checkReportFormat
 Dim f As New clsMyfunction
 Dim coll_rows_final As New Collection
 
+    Set coll_rows = getRowsUnHidden
+    
+    folder_name = Format(Now(), "YYYYMMDD-HHMMSS")
+    
+    For Each r In coll_rows
+    
+        With Sheets("Result")
+    
+            If .Cells(r, .Columns.Count).End(xlToLeft).Column > 5 Then
+        
+            coll_rows_final.Add r
+            
+            End If
+    
+        End With
+    
+    Next
+    
+    If coll_rows_final.Count > 0 Then Call printFilesByRows(coll_rows_final, True, folder_name)
+    
+    Set coll_rows_final = Nothing
+    
+
+Sheets("Main").Activate
+
+End Sub
+
+Function getRowsUnHidden()
+
+Dim coll As New Collection
+
+With Sheets("Result")
+
+    lr = .Cells(.Rows.Count, 1).End(xlUp).Row
+    
+    For r = 2 To lr
+    
+        If .Rows(r).Hidden = False Then
+        
+            coll.Add r
+        
+        End If
+    
+    Next
+
+End With
+
+Set getRowsUnHidden = coll
+
+End Function
+
+Sub getPrintGroups_Old()
+
+Call checkDateFormat
+Call checkReportFormat
+
+Dim f As New clsMyfunction
+Dim coll_rows_final As New Collection
+
 targetMode = InputBox("請選擇排序方法:" & vbNewLine & "1.資料夾" & vbNewLine & "2.日期" & vbNewLine & "3.檢查項目", , 1)
 
 Select Case targetMode
@@ -250,6 +309,7 @@ Next
 Sheets("Main").Activate
 
 End Sub
+
 
 Sub checkDateFormat()
 
@@ -385,7 +445,7 @@ Sub printReportToWb_Save(ByVal wb, ByVal folder_name As String)
     wb.Sheets("工作表1").Delete
     file_path = ThisWorkbook.path & "\施工照片Output\" & folder_name
     wb.SaveAs filename:=file_path, FileFormat:=xlExcel8
-    wb.Close
+    'wb.Close
     
     Application.DisplayAlerts = True
 
@@ -488,3 +548,22 @@ End If
 End With
 
 End Function
+
+Sub ApplyFilterToAllUsedCells()
+    Dim ws As Worksheet
+    Set ws = ActiveSheet '或者您可以使用工作簿中的特定工作表，例如：Set ws = ThisWorkbook.Sheets("Sheet1")
+    
+    ' 如果工作表已經有篩選，則取消篩選
+    If ws.AutoFilterMode Then
+        ws.AutoFilterMode = False
+    End If
+    
+    ' 確保範圍包含所有使用中的儲存格
+    Dim LastRow As Long
+    Dim LastColumn As Long
+    LastRow = ws.Cells(ws.Rows.Count, 1).End(xlUp).Row
+    LastColumn = ws.Cells(1, ws.Columns.Count).End(xlToLeft).Column
+    
+    ' 對整個工作表範圍應用篩選
+    ws.Range(ws.Cells(1, 1), ws.Cells(LastRow, LastColumn)).AutoFilter
+End Sub

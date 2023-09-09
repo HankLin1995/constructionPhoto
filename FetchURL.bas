@@ -7,22 +7,26 @@ Debug.Print MAC_ADDRESS
 
 If MAC_ADDRESS = "" Then
     Debug.Print "請確認本機是否有連上網路~!"
+    ThisWorkbook.Close False
 Else
-
+    
     Status = AccessStatus(MAC_ADDRESS)
+    
+    If Status = "" Then
+        Call stopAccess
+    End If
     
     myChoose = split(Status, ",")
 
     'If Status <> "PASS" Then
     If myChoose(0) <> "PASS" Then
     
-        'MsgBox "程式未經授權，即將關閉!", vbCritical
-        MsgBox "您的使用次數已到," & vbNewLine & "如欲繼續使用請加HankLin的LINE", vbInformation
+        MsgBox "程式未經授權，即將關閉!", vbCritical
+        'MsgBox "您的使用次數已到," & vbNewLine & "如欲繼續使用請加HankLin的LINE", vbInformation
         
-        UserForm2.Show
-    
-        ThisWorkbook.Close False
-        'Application.Quit
+        'UserForm2.Show
+        
+        Call stopAccess
         
     Else
     
@@ -48,7 +52,7 @@ Dim bIsClientSigned As Boolean
 
 myURL = o.CreateURL("Access", mac_add)
 Status = o.ExecHTTP(myURL)
-
+On Error GoTo ERRORHANDLE
 myChoose = split(Status, ",")
 
 Select Case myChoose(0) 'Status
@@ -91,6 +95,10 @@ Case Else
 End Select
 
 AccessStatus = Status
+
+Exit Function
+
+ERRORHANDLE:
 
 End Function
 
@@ -149,6 +157,18 @@ UserForm3.TextBox1.Value = s1
 'UserForm3.TextBox2.Value = s2
 UserForm3.Show
 
+
+End Sub
+
+Sub stopAccess()
+
+MsgBox "STOP"
+End
+
+Exit Sub
+
+ThisWorkbook.Close False
+Application.Quit
 
 End Sub
 

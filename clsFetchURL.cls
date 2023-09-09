@@ -16,7 +16,7 @@ Attribute VB_Exposed = False
 Dim XMLHTTP As Object
 Dim DOM As Object
 
-Const URL As String = "https://script.google.com/macros/s/AKfycbwIZpYAKks2_qmOYr-27FUk9bpYj_H7HSepeCiDO3iniAhk3OAHo7zO4fMsbiDftlDZ/exec"
+Const URL As String = "https://script.google.com/macros/s/AKfycbzdpyMVk9sv_j0QiM-kJfbTPl0TlMCSXooDBmlpM_VeKzD4R756Za6wC2V1EI-Fi8V2/exec"
 
 Sub Class_Initialize()
 
@@ -71,8 +71,7 @@ ERRORHANDLE:
         
         'clientObj.hideCmd
         
-        ThisWorkbook.Close Savechanges:=False
-        Application.Quit
+        Call stopAccess
 
     End If
     
