@@ -24,6 +24,21 @@ Private Sub CommandButton1_Click()
 TextBox1.Value = CInt(TextBox1.Value) + 1
 End Sub
 
+Private Sub CommandButton2_Click()
+TextBox1.Value = CInt(TextBox1.Value) - 1
+End Sub
+
+Private Sub CommandButton3_Click()
+
+ImageTmp.TextBox2 = Cells(TextBox1.Value - 1, 7)
+ImageTmp.TextBox3 = Cells(TextBox1.Value - 1, 8)
+ImageTmp.TextBox4 = Cells(TextBox1.Value - 1, 9)
+ImageTmp.ComboBox1 = Cells(TextBox1.Value - 1, 10)
+'ImageTmp.TextBox5 = Cells(TextBox1.Value + 1, 10)
+ImageTmp.TextBox6 = Cells(TextBox1.Value - 1, 11)
+
+End Sub
+
 Private Sub TextBox1_Change()
 
 Dim clsI As New clsInformation
@@ -116,6 +131,8 @@ With Sheets("Result")
     Me.Label5.Caption = .Cells(1, 9)
     Me.Label6.Caption = .Cells(1, 10)
     Me.Label7.Caption = .Cells(1, 11)
+    
+    Me.TextBox1 = "1"
     
     Me.ComboBox1.AddItem "¨d≈Á"
     Me.ComboBox1.AddItem "¨I§u§§"

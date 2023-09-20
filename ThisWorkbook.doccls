@@ -27,7 +27,7 @@ If lr > 8 Then .Range("A9:B" & lr).Clear
 
 End With
 
-MsgBox "授權已通過!", vbInformation
+MsgBox "您的版本為試用版，授權已通過!", vbInformation
 
 End Sub
 

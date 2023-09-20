@@ -893,7 +893,7 @@ Function tranStrToDate(ByVal s As String)
 On Error GoTo ERRORHANDLE
 
 If Len(s) = 7 Then
-    Y = mid(s, 1, 3)
+    Y = 1911 + mid(s, 1, 3)
     M = mid(s, 4, 2)
     d = mid(s, 6, 2)
 ElseIf Len(s) = 8 Then

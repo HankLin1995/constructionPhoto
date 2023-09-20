@@ -34,8 +34,13 @@ Else
         
         'Call ShowDialoge(myChoose(3)) ', myChoose(3))
         
+        
+        On Error GoTo ERRORHANDLE
+        
         If myChoose(2) <> "" Then MsgBox "***個人公告***" & vbNewLine & vbNewLine & "『" & myChoose(2) & "』"
         If myChoose(3) <> "" Then MsgBox "***系統公告***" & vbNewLine & vbNewLine & "『" & myChoose(3) & "』"
+        
+ERRORHANDLE:
         
     End If
 

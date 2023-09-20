@@ -1,4 +1,25 @@
 Attribute VB_Name = "test"
+Sub changeReportNum()
+
+cnt = InputBox("num=?")
+
+For Each rng In Selection
+    
+    If rng.Value Like "<<*>>" Then
+    
+        tmp = Replace(rng.Value, "<<", "")
+        tmp = Replace(tmp, ">>", "")
+        
+        tmp2 = split(tmp, "-")
+        
+        rng.Value = "<<" & tmp2(0) & "-" & cnt & ">>"
+    
+    End If
+
+Next
+
+End Sub
+
 Sub checkReportFormat()
 
 Dim coll As New Collection
