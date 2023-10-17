@@ -12,7 +12,7 @@ Private sht As Object
 
 Sub BeforePrintCheck()
 
-'For Each rng In Sheets("Report").UsedRange
+'For Each rng In Sheets(getReportShtName).UsedRange
 
     'If rng.Interior.ColorIndex = 44 Then MsgBox "累計數量超過契約數量囉~": End
 
@@ -30,7 +30,7 @@ wbpath = getThisWorkbookPath
 
 For i = sr To er
 
-    Sheets("Report").Activate
+    Sheets(getReportShtName).Activate
     
     Range("K2") = i
     
@@ -98,7 +98,7 @@ wbpath = getThisWorkbookPath
 
 For i = sr To er
 
-    Sheets("Report").Activate
+    Sheets(getReportShtName).Activate
     
     Range("K2") = i
         
@@ -152,14 +152,14 @@ For r = er To sr Step -1
 
     ThisWorkbook.Activate
 
-    ThisWorkbook.Sheets("Report").Range("K2") = r
+    ThisWorkbook.Sheets(getReportShtName).Range("K2") = r
     
     Dim obj As New clsReport
     
     obj.WriteReport_Test
     obj.hideRow
     
-    ThisWorkbook.Sheets("Report").Copy (wb.Sheets(1))
+    ThisWorkbook.Sheets(getReportShtName).Copy (wb.Sheets(1))
     
     Set sht = wb.Sheets(1)
     
@@ -203,11 +203,11 @@ For r = er To sr Step -1
 
     ThisWorkbook.Activate
 
-    ThisWorkbook.Sheets("Report").Range("K2") = r
+    ThisWorkbook.Sheets(getReportShtName).Range("K2") = r
     
     Call ReportRun
     
-    ThisWorkbook.Sheets("Report").Copy (wb.Sheets(1))
+    ThisWorkbook.Sheets(getReportShtName).Copy (wb.Sheets(1))
     
     Set sht = wb.Sheets(1)
     

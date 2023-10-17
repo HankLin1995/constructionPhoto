@@ -49,7 +49,7 @@ End Function
 
 Function getReNameStruc()
 
-getReNameStruc = Sheets("Main").Range("B5")
+getReNameStruc = Sheets("Main").Range("B6")
 
 End Function
 

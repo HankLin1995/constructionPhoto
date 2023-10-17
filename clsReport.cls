@@ -16,12 +16,15 @@ Private coll_rng_address As New Collection
 Private collitem As New Collection
 Private collday As New Collection
 Public IsXLS As Boolean
+Private report_shtname As String
 
 Private Sub Class_Initialize()
 
 Application.ScreenUpdating = False
 
-Set shtReport = ThisWorkbook.Sheets("Report")
+report_shtname = Sheets("Main").Range("B4")
+
+Set shtReport = ThisWorkbook.Sheets(report_shtname)
 Set shtResult = ThisWorkbook.Sheets("Result")
 
 coll_rng_address.Add "C3"
@@ -293,7 +296,7 @@ If o.IsPrintDate = False Then Exit Sub
     Call o.VBLongToRGB(RGB_Font, r2, g2, b2)
 'End If
 
-With ThisWorkbook.Sheets("Report")
+With ThisWorkbook.Sheets(report_shtname)
 
     .Activate
 

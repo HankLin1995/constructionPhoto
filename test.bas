@@ -1,4 +1,52 @@
 Attribute VB_Name = "test"
+Sub test_getShapeLoc()
+
+For Each Shape In ActiveSheet.Shapes
+    
+    Debug.Print Shape.TopLeftCell.Column
+
+Next
+
+End Sub
+
+Sub getReportShts()
+
+Dim coll As New Collection
+
+For Each sht In Sheets
+
+    If sht.Name Like "*-*" Then
+    
+    coll.Add sht.Name
+    
+    End If
+
+Next
+
+For Each it In coll
+
+    j = j + 1
+
+    p = p & j & "." & it & vbNewLine
+
+Next
+
+mode = InputBox("請選擇列印版型:" & vbNewLine & p)
+
+Sheets(coll(CInt(mode))).PrintPreview
+
+msg = MsgBox("這是您要的版型嗎?", vbYesNo)
+
+If msg = vbYes Then Sheets("Main").Range("B4") = coll(CInt(mode))
+
+End Sub
+
+Function getReportShtName()
+
+getReportShtName = Sheets("Main").Range("B4")
+
+End Function
+
 Sub changeReportNum()
 
 cnt = InputBox("num=?")
@@ -24,7 +72,7 @@ Sub checkReportFormat()
 
 Dim coll As New Collection
 
-For Each rng In Sheets("Report").UsedRange
+For Each rng In Sheets(getReportShtName).UsedRange
 
     If rng.Value Like "<<*>>" Then
     
@@ -46,9 +94,9 @@ For Each it In coll
     ky = s(0)
     Set rng = Sheets("Result").Rows(1).Find(ky)
     If rng Is Nothing And ky <> "照片" Then
-        Sheets("Report").Activate
+        Sheets(getReportShtName).Activate
         MsgBox "【" & it & "】:對應不到Result的表頭名稱":
-        Set rng_focus = Sheets("Report").Cells.Find("<<" & it & ">>")
+        Set rng_focus = Sheets(getReportShtName).Cells.Find("<<" & it & ">>")
         rng_focus.Select
         End
     End If
@@ -376,6 +424,8 @@ Dim o As New clsReport
 Dim f As New clsMyfunction
 Dim coll_recover As New Collection
 
+report_shtname = Sheets("Main").Range("B4")
+
 Set coll_key = getKeyWords '第G欄開始
 
 Set wb = Workbooks.Add
@@ -402,15 +452,15 @@ KeepPrint:
             
                 file_name = file_name & r & "-"
                 'paste photo
-                Call o.PastePhoto_giveRng(Sheets("Report").Range(myAddress), Sheets("Result").Cells(r, "C"), Sheets("Result").Cells(r, CInt(col)))
+                Call o.PastePhoto_giveRng(Sheets(getReportShtName).Range(myAddress), Sheets("Result").Cells(r, "C"), Sheets("Result").Cells(r, CInt(col)))
             
             ElseIf myKey = "日期" Then
                 
-                Sheets("Report").Range(myAddress) = f.tranStrToDate(Sheets("Result").Cells(r, CInt(col)))
+                Sheets(getReportShtName).Range(myAddress) = f.tranStrToDate(Sheets("Result").Cells(r, CInt(col)))
             
             Else
             
-                Sheets("Report").Range(myAddress) = Sheets("Result").Cells(r, CInt(col))
+                Sheets(getReportShtName).Range(myAddress) = Sheets("Result").Cells(r, CInt(col))
             
             End If
             
@@ -474,12 +524,18 @@ End Sub
 
 Sub printReportToWb(ByVal wb, ByVal file_name As String)
 
-Sheets("Report").Copy After:=wb.Sheets(wb.Sheets.Count)
+Sheets(getReportShtName).Copy After:=wb.Sheets(wb.Sheets.Count)
 Set sht = wb.Sheets(wb.Sheets.Count)
 sht.Name = file_name
 
 For Each rng In sht.UsedRange
     If rng Like "<<*" Then rng.Font.ColorIndex = 2
+Next
+
+For Each rng In sht.UsedRange
+
+    If rng.Formula Like "*!*" Then rng.Value = rng.Value
+
 Next
 
 ThisWorkbook.Activate
@@ -494,7 +550,7 @@ On Error Resume Next
 MkDir (folder_path)
 On Error GoTo 0
 
-Set sht = Sheets("Report")
+Set sht = Sheets(getReportShtName)
 
 Dim o As New clsPrintOut
 
@@ -506,7 +562,7 @@ End Sub
 
 Sub clearReport(ByVal coll_recover)
 
-For Each shp In Sheets("Report").Shapes
+For Each shp In Sheets(getReportShtName).Shapes
 
     shp.Delete
 
@@ -518,7 +574,7 @@ For Each it In coll_recover
     rngValue = tmp(0)
     rngAddress = tmp(1)
 
-    Sheets("Report").Range(rngAddress) = rngValue
+    Sheets(getReportShtName).Range(rngAddress) = rngValue
 
 Next
 
@@ -556,7 +612,7 @@ Function getAddressByKeyWord(ByVal myKeyWord As String, ByVal cnt As String) As 
 
 find_text = "<<" & myKeyWord & "-" & cnt & ">>"
 
-With ThisWorkbook.Sheets("Report")
+With ThisWorkbook.Sheets(getReportShtName)
 
 Set rng = .Cells.Find(find_text)
 
@@ -587,4 +643,10 @@ Sub ApplyFilterToAllUsedCells()
     
     ' 對整個工作表範圍應用篩選
     ws.Range(ws.Cells(1, 1), ws.Cells(LastRow, LastColumn)).AutoFilter
+End Sub
+
+Sub show_ImageTmp()
+
+ImageTmp.Show 0
+
 End Sub

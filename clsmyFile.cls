@@ -96,7 +96,9 @@ If rng_last.Row > 1 Then .Range("A2").Resize(rng_last.Row, rng_last.Column).Clea
 
 For Each Shape In .Shapes
     
-    Shape.Delete
+    Debug.Print Shape.Address
+    
+    If Shape.TopLeftCell.Column = 2 Then Shape.Delete
 
 Next
 
@@ -121,9 +123,9 @@ With shtResult
             objTargetCell.ColumnWidth = photo_width
             objTargetCell.RowHeight = photo_height
         
-            'Set pic = .Pictures.Insert(photo_path)
-            Set pic = .Pictures.Insert(imagePath).ShapeRange.PictureFormat.Compression = 75
-            Set pic = .Shapes.AddPicture(photo_path) ', True, True, objTargetCell.Left + 2, objTargetCell.Top + 2, objTargetCell.Width - 4, objTargetCell.Height - 4)
+            Set pic = .Pictures.Insert(photo_path)
+            'Set pic = .Pictures.Insert(imagePath).ShapeRange.PictureFormat.Compression = 75
+            'Set pic = .Shapes.AddPicture(photo_path) ', True, True, objTargetCell.Left + 2, objTargetCell.Top + 2, objTargetCell.Width - 4, objTargetCell.Height - 4)
             'pic.LockAspectRatio = msoFalse
         
             With pic

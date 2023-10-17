@@ -1,5 +1,18 @@
 Attribute VB_Name = "UnitTest"
+Sub test_clearshps()
 
+With Sheets("Result")
+
+    For Each shp In .Shapes
+    
+        shp.Delete
+        Debug.Print shp.Name
+    
+    Next
+
+End With
+
+End Sub
 
 Sub test_Main()
 

@@ -43,7 +43,7 @@ Private Sub TextBox1_Change()
 
 Dim clsI As New clsInformation
 
-If clsI.IsShowEditForm = False Then Exit Sub
+'If clsI.IsShowEditForm = False Then Exit Sub
 
 On Error Resume Next
 
@@ -134,9 +134,10 @@ With Sheets("Result")
     
     Me.TextBox1 = "1"
     
-    Me.ComboBox1.AddItem "查驗"
+    Me.ComboBox1.AddItem "施工抽查"
+    Me.ComboBox1.AddItem "品質管制"
+    Me.ComboBox1.AddItem "缺失改善"
     Me.ComboBox1.AddItem "施工中"
-    Me.ComboBox1.AddItem "缺失"
 
 End With
 
