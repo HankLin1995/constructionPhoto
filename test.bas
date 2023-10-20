@@ -1,4 +1,82 @@
 Attribute VB_Name = "test"
+Sub test_getTestMode()
+
+Sheets("Main").Range("B2") = ""
+
+MsgBox "第一步:先取得資料夾!", vbInformation
+
+Sheets("Main").Range("B2") = ThisWorkbook.path & "\FAKE_IMAGES"
+Sheets("Main").Range("B2").Select
+
+MsgBox "第二步:貼上結果，如果要清單旁邊出現縮圖就勾選[貼上縮圖]", vbInformation
+
+Call getDataFromFolder
+
+MsgBox "貼上結果後會出現清單，如果嫌縮圖太小，可以點選按鈕[顯示大圖]", vbInformation
+
+Call show_ImageTmp
+
+Sheets("Result").Range("B2").Select
+
+MsgBox "可以在此進行編輯屬性，也可以將大圖移動至左側，直接在儲存格編輯屬性", vbInformation
+
+Unload ImageTmp
+
+With Sheets("Result")
+
+    lr = .Cells(.Rows.Count, 1).End(xlUp).Row
+    
+    For r = 2 To lr - 5
+    
+        .Cells(r, "G") = "20231019"
+        .Cells(r, "H") = "0K+100"
+        .Cells(r, "I") = "現場情況說明" & r - 1
+        .Cells(r, "J") = "品質管制"
+        .Cells(r, "K") = "EA-1"
+    
+    Next
+    
+    For r = lr - 5 To lr
+    
+        .Cells(r, "G") = "20231019"
+        .Cells(r, "H") = "0K+100"
+        .Cells(r, "I") = "現場情況說明" & r - 1
+        .Cells(r, "J") = "施工抽查"
+        .Cells(r, "K") = "EB-1"
+    
+    Next
+
+End With
+
+MsgBox "填寫完畢後，篩選出要列印成報告的照片屬性(假設我要列印EB-1)", vbInformation
+
+ActiveSheet.Range("$A$1:$L$10").AutoFilter Field:=11, Criteria1:="EB-1"
+
+MsgBox "點選列印報告試試!", vbInformation
+
+Call getPrintGroups
+
+MsgBox "接下來就是調整版型的問題了!選擇完版型之後記得點選【關閉預覽列印】", vbInformation
+
+ThisWorkbook.Activate
+
+Sheets("Main").Activate
+
+Call getReportShts
+
+MsgBox "可以先看Main的版型，找到正確的版型之後，列印報告看看吧~", vbInformation
+
+Call getPrintGroups
+
+ThisWorkbook.Activate
+Sheets("Main").Activate
+
+MsgBox "如果要把屬性儲存在照片上，可以點選更改檔名，就會永久記錄囉~", vbInformation
+
+Call ChangeAllFileName
+
+End Sub
+
 Sub test_getShapeLoc()
 
 For Each Shape In ActiveSheet.Shapes
@@ -31,13 +109,21 @@ For Each it In coll
 
 Next
 
+AGAIN:
+
 mode = InputBox("請選擇列印版型:" & vbNewLine & p)
 
 Sheets(coll(CInt(mode))).PrintPreview
 
 msg = MsgBox("這是您要的版型嗎?", vbYesNo)
 
-If msg = vbYes Then Sheets("Main").Range("B4") = coll(CInt(mode))
+If msg = vbYes Then
+    Sheets("Main").Range("B4") = coll(CInt(mode))
+Else
+    GoTo AGAIN
+End If
+
+Sheets("Main").Activate
 
 End Sub
 
@@ -297,9 +383,10 @@ Dim coll_rows_final As New Collection
     If coll_rows_final.Count > 0 Then Call printFilesByRows(coll_rows_final, True, folder_name)
     
     Set coll_rows_final = Nothing
-    
 
 Sheets("Main").Activate
+
+Workbooks(Workbooks.Count).Activate
 
 End Sub
 

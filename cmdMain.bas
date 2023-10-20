@@ -73,6 +73,10 @@ End Sub
 
 Sub ChangeAllFileName()
 
+If Sheets("Result").AutoFilterMode Then
+    Sheets("Result").AutoFilterMode = False
+End If
+
 Call getCombineNames
 
 Dim objFile As New clsmyFile

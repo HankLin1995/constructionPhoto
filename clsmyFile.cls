@@ -87,7 +87,12 @@ With shtResult
 
 .Range("D1") = "¸ê®Æ§¨(" & main_folder & ")"
 
-Set rng_last = .Cells.SpecialCells(xlCellTypeLastCell)
+lr = .Cells(1, 1).End(xlDown).Row
+lc = .Cells(1, 1).End(xlToRight).Column - 1
+
+Set rng_last = .Cells(lr, lc)
+
+'Set rng_last = .Cells.SpecialCells(xlCellTypeLastCell)
 
 'lr = .Cells(.Rows.Count, 1).End(xlUp).Row
 'lc = .Cells(1, .Columns.Count).End(xlToLeft).Column
@@ -96,9 +101,9 @@ If rng_last.Row > 1 Then .Range("A2").Resize(rng_last.Row, rng_last.Column).Clea
 
 For Each Shape In .Shapes
     
-    Debug.Print Shape.Address
+    'Debug.Print Shape.Address
     
-    If Shape.TopLeftCell.Column = 2 Then Shape.Delete
+    If Shape.TopLeftCell.Row <> 1 Then Shape.Delete
 
 Next
 
@@ -110,7 +115,12 @@ Sub PastePictures()
 
 With shtResult
     
-    Set rng_last = .Cells.SpecialCells(xlCellTypeLastCell)
+    lr = .Cells(1, 1).End(xlDown).Row
+    lc = .Cells(1, 1).End(xlToRight).Column - 1
+    
+    Set rng_last = .Cells(lr, lc)
+    
+    'Set rng_last = .Cells.SpecialCells(xlCellTypeLastCell)
     
     r = 2
     
@@ -159,6 +169,7 @@ With shtResult
         .Cells(r, 3) = photo_path
         .Cells(r, 4) = getParentFolder(photo_path)
         .Cells(r, 5) = getFileName(photo_path)
+        
         .Cells(r, 1).Resize(1, rng_last.Column).Borders.LineStyle = 1
         .Cells(r, 6).Resize(1, rng_last.Column).HorizontalAlignment = xlLeft
         

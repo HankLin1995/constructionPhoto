@@ -37,13 +37,13 @@ End Function
 
 Function getFontColor()
 
-getFontColor = Sheets("Main").Range("C4").Font.color
+getFontColor = Sheets("Main").Range("C5").Font.color
 
 End Function
 
 Function getInteriorColor()
 
-getInteriorColor = Sheets("Main").Range("C4").Interior.color
+getInteriorColor = Sheets("Main").Range("C5").Interior.color
 
 End Function
 

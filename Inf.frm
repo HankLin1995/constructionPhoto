@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} Inf 
    Caption         =   "歡迎使用"
-   ClientHeight    =   6450
+   ClientHeight    =   6675
    ClientLeft      =   120
    ClientTop       =   465
-   ClientWidth     =   11265
+   ClientWidth     =   11295
    OleObjectBlob   =   "Inf.frx":0000
    StartUpPosition =   1  '所屬視窗中央
 End
@@ -13,6 +13,11 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
+Private Sub CommandButton1_Click()
+ActiveWorkbook.FollowHyperlink Address:="https://portaly.cc/hanksvba/support", NewWindow:=True
+End
+End Sub
 
 Private Sub Image2_Click()
 ActiveWorkbook.FollowHyperlink Address:="https://hankvba.blogspot.com/2018/03/autocad-vba.html", NewWindow:=True
