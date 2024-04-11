@@ -87,17 +87,12 @@ With shtResult
 
 .Range("D1") = "¸ê®Æ§¨(" & main_folder & ")"
 
-lr = .Cells(1, 1).End(xlDown).Row
-lc = .Cells(1, 1).End(xlToRight).Column - 1
+Set rng_last = .Cells.SpecialCells(xlCellTypeLastCell)
 
-Set rng_last = .Cells(lr, lc)
+lr = .Cells(.Rows.Count, 1).End(xlUp).Row
+lc = .Cells(1, .Columns.Count).End(xlToLeft).Column
 
-'Set rng_last = .Cells.SpecialCells(xlCellTypeLastCell)
-
-'lr = .Cells(.Rows.Count, 1).End(xlUp).Row
-'lc = .Cells(1, .Columns.Count).End(xlToLeft).Column
-
-If rng_last.Row > 1 Then .Range("A2").Resize(rng_last.Row, rng_last.Column).Clear 'Contents
+If lr > 1 Then .Range("A2").Resize(rng_last.Row, rng_last.Column).Clear
 
 For Each Shape In .Shapes
     
