@@ -236,8 +236,26 @@ With shtReport
     X1 = LastRng.Left
     Y1 = LastRng.Top
     
-    Set pic = .Shapes.AddPicture(photo_path, True, True, X0 + 2, Y0 + 2, X1 - X0 - 4, Y1 - Y0 - 4)
-    pic.LockAspectRatio = msoFalse
+    targetWidth = X1 - X0 - 4
+    targetHeight = Y1 - Y0 - 4
+  
+    ' 加入圖片，先放大一點
+    Set pic = .Shapes.AddPicture(photo_path, True, True, X0 + 2, Y0 + 2, -1, -1)
+                                     
+    ' 鎖定比例不變
+    pic.LockAspectRatio = msoTrue
+    
+    ' 根據原始比例決定是縮放寬還是高
+    If (pic.Width / pic.Height) > (targetWidth / targetHeight) Then
+        ' 圖片比較寬，以寬度為主
+        pic.Width = targetWidth
+    Else
+        ' 圖片比較高，以高度為主
+        pic.Height = targetHeight
+    End If
+    
+    ' 根據調整後寬度重新置中 (optional)
+    pic.Left = X0 + ((X1 - X0) - pic.Width) / 2
     
     Call AddText(X1 - 100, Y1 - 30, 25, 40, tranDate(checkday), 3) '額外接入之checkday要顯示於照片右下角
     
